@@ -26,6 +26,8 @@ const TransactionHistoryPage = lazy(() => import("./pages/history/page.tsx"));
 const FavoritesPage = lazy(() => import("./pages/favorites/page.tsx"));
 const CollectionDetailPage = lazy(() => import("./pages/collections/page.tsx"));
 const CreatorAnalyticsPage = lazy(() => import("./pages/analytics/page.tsx"));
+const CreatorReferralDashboard = lazy(() => import("./pages/analytics/referral-dashboard.tsx"));
+const BuyerReferralsPage = lazy(() => import("./pages/referrals/page.tsx"));
 const SandboxPage = lazy(() => import("./pages/sandbox/page.tsx"));
 
 /** Fade + slide transition applied to the active route on navigation. */
@@ -222,6 +224,22 @@ function ApplicationShell() {
             element={
               <SuspenseRoute routeName="Creator Analytics">
                 <CreatorAnalyticsPage />
+              </SuspenseRoute>
+            }
+          />
+          <Route
+            path="/analytics/referrals"
+            element={
+              <SuspenseRoute routeName="Creator Referral Dashboard">
+                <CreatorReferralDashboard />
+              </SuspenseRoute>
+            }
+          />
+          <Route
+            path="/referrals"
+            element={
+              <SuspenseRoute routeName="Buyer Referrals">
+                <BuyerReferralsPage />
               </SuspenseRoute>
             }
           />
