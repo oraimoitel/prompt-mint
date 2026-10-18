@@ -10,6 +10,8 @@ import {
   MIN_COMPARE,
   encodeComparisonShare,
   decodeComparisonShare,
+  isTableMode,
+  COMPARISON_TABLE_COLUMNS,
   type ComparisonPrompt,
 } from "./state";
 
@@ -67,6 +69,39 @@ describe("comparison selection state", () => {
     expect(canView([makePrompt("1")])).toBe(false);
     expect(canView([makePrompt("1"), makePrompt("2")])).toBe(true);
     expect(MIN_COMPARE).toBe(2);
+  });
+});
+
+describe("comparison table mode", () => {
+  it("keeps table mode off when fewer than three prompts are selected", () => {
+    expect(isTableMode([])).toBe(false);
+    expect(isTableMode([makePrompt("1")])).toBe(false);
+    expect(isTableMode([makePrompt("1"), makePrompt("2")])).toBe(false);
+  });
+
+  it("turns table mode on when at least three prompts are selected", () => {
+    expect(isTableMode([makePrompt("1"), makePrompt("2"), makePrompt("3")])).toBe(true);
+    expect(
+      isTableMode([
+        makePrompt("1"),
+        makePrompt("2"),
+        makePrompt("3"),
+        makePrompt("4"),
+      ]),
+    ).toBe(true);
+  });
+
+  it("defines the canonical comparison table columns", () => {
+    expect(COMPARISON_TABLE_COLUMNS).toContain("title");
+    expect(COMPARISON_TABLE_COLUMNS).toContain("creator");
+    expect(COMPARISON_TABLE_COLUMNS).toContain("price");
+    expect(COMPARISON_TABLE_COLUMNS).toContain("category");
+    expect(COMPARISON_TABLE_COLUMNS).toContain("rating");
+    expect(COMPARISON_TABLE_COLUMNS).toContain("sales");
+    expect(COMPARISON_TABLE_COLUMNS).toContain("tags");
+    expect(COMPARISON_TABLE_COLUMNS).toContain("license");
+    expect(COMPARISON_TABLE_COLUMNS).toContain("status");
+    expect(COMPARISON_TABLE_COLUMNS).toHaveLength(9);
   });
 });
 

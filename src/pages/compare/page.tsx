@@ -6,7 +6,8 @@ import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { PromptComparisonView } from "@/pages/browse/PromptComparisonView";
 import { useComparison } from "@/hooks/useComparison";
-import { MIN_COMPARE, decodeComparisonShare } from "@/lib/comparison/state";
+import { MIN_COMPARE, decodeComparisonShare, isTableMode } from "@/lib/comparison/state";
+import { ComparisonTableView } from "@/pages/compare/ComparisonTableView";
 
 export default function ComparePage() {
   const { selected, remove, clear, canView } = useComparison();
@@ -16,6 +17,8 @@ export default function ComparePage() {
     () => decodeComparisonShare(searchParams.toString()),
     [searchParams],
   );
+
+  const showTableMode = isTableMode(selected);
 
   useEffect(() => {
     if (sharedIds.length > 0 && selected.length === 0) {
@@ -82,6 +85,12 @@ export default function ComparePage() {
               <Link to="/browse">Browse prompts</Link>
             </Button>
           </div>
+        ) : showTableMode ? (
+          <ComparisonTableView
+            selected={selected}
+            onRemove={remove}
+            onClear={clear}
+          />
         ) : (
           <PromptComparisonView
             selected={selected}

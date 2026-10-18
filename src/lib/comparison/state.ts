@@ -33,12 +33,41 @@ export interface ComparisonPrompt {
   priceUnit?: string;
   /** Human-readable creator name (falls back to the address if absent). */
   creatorName?: string;
+  /** UI mode used when this prompt is rendered as part of a comparison table. */
+  comparisonMode?: "grid" | "table";
 }
 
 /** Maximum prompts that can be compared at once. */
 export const MAX_COMPARE = 4;
 /** Minimum prompts required before the comparison view is meaningful. */
 export const MIN_COMPARE = 2;
+
+/**
+ * Columns rendered in the comparison table mode.
+ * Defined once so the table and any future table consumers stay in sync.
+ */
+export const COMPARISON_TABLE_COLUMNS = [
+  "title",
+  "creator",
+  "price",
+  "category",
+  "rating",
+  "sales",
+  "tags",
+  "license",
+  "status",
+] as const;
+
+export type ComparisonTableColumn = (typeof COMPARISON_TABLE_COLUMNS)[number];
+
+/**
+ * True when a comparison set is big enough to justify the table layout.
+ * The table mode is most useful when at least three prompts are selected.
+ */
+export function isTableMode(selected: ComparisonPrompt[]): boolean {
+  return selected.length >= 3;
+}
+
 
 /**
  * Encodes the selected comparison prompt ids into a shareable URL query string.

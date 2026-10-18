@@ -11,6 +11,8 @@ import { useMemo } from "react";
 
 export type { ComparisonPrompt };
 
+export { isTableMode, COMPARISON_TABLE_COLUMNS } from "@/lib/comparison/state";
+
 function StarRating({ rating }: { rating: number }) {
   return (
     <div className="flex items-center gap-0.5" role="img" aria-label={`Rating: ${rating.toFixed(1)} out of 5`}>
